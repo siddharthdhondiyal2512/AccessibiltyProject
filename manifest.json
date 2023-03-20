@@ -1,0 +1,53 @@
+{
+    "name": "accessibilityExtension",
+    "version" : "1.0",
+    "manifest_version": 2,
+    "browser_action":{
+        "default_popup":"popup.html",
+        "default_icon": "extimg.png"
+    }, 
+    "permissions": [
+        "tts",
+        "downloads",
+        "activeTab",
+        "storage",
+        "accessibilityFeatures",
+        "commands",
+        "https://docs.google.com/*",
+        "https://www.googleapis.com/*",
+        "https://www.googleapis.com/auth/documents"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "content_scripts": [{
+        "matches": ["*://*.docs.google.com/document/d/*"],
+        "js": [
+            "suggestionMode.js",
+            "proximityMode.js"
+        ],
+        "all_frames":true 
+    }],
+    "web_accessible_resources": [
+        "https://apis.google.com/js/api.js"
+      ], 
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com; object-src 'self'",
+    "commands": {
+        "execute-suggestion-mode": {
+            "suggested_key": {
+            "default": "Ctrl+Shift+H",
+            "mac": "MacCtrl+Shift+F"
+            },
+            "description": "read suggestions in different voice"
+        },
+        "execute-proximity-mode": {
+            "suggested_key": {
+            "default": "Ctrl+Shift+P",
+            "mac": "MacCtrl+Shift+P"
+            },
+            "description": "tells distance between collaborators"
+        }
+    }
+}
